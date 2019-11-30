@@ -1,0 +1,6 @@
+.stack-work/
+dist-newstyle/
+label-maker.cabal
+*~
+cabal.project.local
+dist/

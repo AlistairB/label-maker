@@ -1,0 +1,22 @@
+organizations:
+  scala-course:
+    repos: all
+  locations:
+    repos:
+      - atlas
+      - atlas-java-sdk
+
+
+labels:
+  sync:
+    zomg-duplicate:
+      color: '000000'
+    invalid:
+      color: '333333'
+    new-label:
+      color: 'b98fe0'
+  delete:
+    - bug
+  rename:
+    - old-label-name: duplicate
+      new-label-name: zomg-duplicate

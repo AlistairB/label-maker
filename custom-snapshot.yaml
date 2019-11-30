@@ -1,0 +1,10 @@
+resolver: lts-14.16
+name: custom-snapshot
+packages:
+- github-0.24
+- binary-instances-1
+
+- polysemy-1.2.3.0
+- polysemy-plugin-0.2.4.0
+
+- optparse-applicative-0.15.1.0

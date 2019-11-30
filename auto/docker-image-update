@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+
+cd $(dirname $0)/..
+
+function update_file() {
+  local DOCKER_FILE=$1
+  docker run -ti --rm -v $(pwd):/cwd realestate/dfresh update $DOCKER_FILE
+}
+
+update_file docker-compose.yml
+update_file support/ci-base/Dockerfile
+update_file support/dev/Dockerfile
+update_file support/prod/Dockerfile

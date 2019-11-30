@@ -1,0 +1,21 @@
+#!/bin/bash
+set -Eexuo pipefail
+
+cd $(dirname $0)/..
+
+REPOSITORY=githubregistry.com/label-maker
+SEMVER=$(<SEMVER)
+VERSION=$SEMVER.${CI_BUILD_NUMBER:-dev}
+IMAGE=$REPOSITORY:$VERSION
+
+mkdir -p artifacts
+echo $IMAGE > artifacts/docker-image.txt
+
+echo building $IMAGE
+docker build -t $IMAGE -f support/prod/Dockerfile .
+
+docker tag $IMAGE $REPOSITORY:latest
+echo pushing $IMAGE to registry
+docker push $IMAGE
+echo pushing $REPOSITORY:latest to registry
+docker push $REPOSITORY:latest

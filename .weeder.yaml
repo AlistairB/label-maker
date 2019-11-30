@@ -1,0 +1,15 @@
+- package:
+  - name: label-maker
+  - section:
+    - name: exe:label-maker-exe
+    - message:
+      - name: Redundant build-depends entry
+      - depends:
+        - hlint
+        - weeder
+  - section:
+    - name: library
+    - message:
+      - name: Redundant build-depends entry
+      - depends: polysemy-plugin
+

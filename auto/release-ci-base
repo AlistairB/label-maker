@@ -1,0 +1,18 @@
+#!/bin/bash
+set -Eexuo pipefail
+
+cd $(dirname $0)/..
+
+VERSION=1
+
+REPOSITORY=githubregistry.com/label-maker-ci-base
+IMAGE=$REPOSITORY:$VERSION
+
+echo building $IMAGE
+docker build -t $IMAGE -f support/ci-base/Dockerfile .
+
+docker tag $IMAGE $REPOSITORY:latest
+echo pushing $IMAGE to registry
+docker push $IMAGE
+echo pushing $REPOSITORY:latest to registry
+docker push $REPOSITORY:latest

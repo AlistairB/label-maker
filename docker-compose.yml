@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: ./support/dev/Dockerfile
+    working_dir: /work
+    command: ./support/dev/run
+    volumes:
+      - .:/work
+      - stack-global:/root/.stack
+
+  ci:
+    image: githubregistry.com/label-maker-ci-base:1
+    working_dir: /work
+    volumes:
+      - .:/work
+
+volumes:
+  stack-global:
+    external: true
