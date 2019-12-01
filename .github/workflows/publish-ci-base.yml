@@ -20,7 +20,7 @@ jobs:
     - name: Publish CI Base Image
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: AlistairB/label-maker/label-maker-ci-base
+        name: alistairb/label-maker/label-maker-ci-base
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
