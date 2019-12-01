@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v1
     - name: Publish CI Base Image
       run: auto/publish-ci-base
       # uses: elgohr/Publish-Docker-Github-Action@master
