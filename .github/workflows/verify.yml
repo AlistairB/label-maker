@@ -1,0 +1,13 @@
+name: Verify
+
+on: [push, pull_request]
+
+jobs:
+
+  hlint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: HLint
+      run: auto/hlint
