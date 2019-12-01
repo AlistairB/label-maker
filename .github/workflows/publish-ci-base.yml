@@ -18,11 +18,12 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Publish CI Base Image
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: alistairb/label-maker/label-maker-ci-base
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: docker.pkg.github.com
-        dockerfile: support/ci-base/Dockerfile
-        workdir: .
+      run: auto/publish-ci-base
+      # uses: elgohr/Publish-Docker-Github-Action@master
+      # with:
+      #   name: alistairb/label-maker/label-maker-ci-base
+      #   username: ${{ github.actor }}
+      #   password: ${{ secrets.GITHUB_TOKEN }}
+      #   registry: docker.pkg.github.com
+      #   dockerfile: support/ci-base/Dockerfile
+      #   workdir: .
