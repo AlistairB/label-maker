@@ -12,7 +12,7 @@ services:
       - stack-global:/root/.stack
 
   ci:
-    image: docker.pkg.github.com/alistairb/label-maker/label-maker-ci-base
+    image: docker.pkg.github.com/alistairb/label-maker/label-maker-ci-base:ee09d63eee1c9434037dbd6c2ee6b6ffcacd1220
     working_dir: /work
     volumes:
       - .:/work
