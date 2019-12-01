@@ -13,6 +13,6 @@ docker build -t $IMAGE -f support/ci-base/Dockerfile .
 
 docker tag $IMAGE $REPOSITORY:latest
 echo pushing $IMAGE to registry
-docker push $IMAGE
+# docker push $IMAGE
 echo pushing $REPOSITORY:latest to registry
-docker push $REPOSITORY:latest
+# docker push $REPOSITORY:latest

@@ -1,0 +1,20 @@
+name: Publish CI Base Image
+
+on:
+  push:
+    paths:
+    - 'stack.yaml'
+    - 'stack.yaml.lock'
+    - 'package.yaml'
+    - 'custom-snapshot.yaml'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Publish CI Base Image
+      run: ./auto/publish-ci-base
