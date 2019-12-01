@@ -7,9 +7,9 @@ RUN stack upgrade --binary-version $STACK_VERSION
 
 WORKDIR /temp
 
-ADD custom-snapshot.yaml /temp/custom-snapshot.yaml
-
 RUN stack update
+
+ADD custom-snapshot.yaml /temp/custom-snapshot.yaml
 
 ADD stack.yaml /temp/stack.yaml
 
