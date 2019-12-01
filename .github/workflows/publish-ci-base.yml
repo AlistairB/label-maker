@@ -15,6 +15,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@master
     - name: Publish CI Base Image
-      run: ./auto/publish-ci-base
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: AlistairB/label-maker/label-maker-ci-base
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        registry: docker.pkg.github.com
+        dockerfile: support/ci-base/Dockerfile
+        context: .
