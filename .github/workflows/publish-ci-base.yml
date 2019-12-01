@@ -1,7 +1,7 @@
 name: Publish CI Base Image
 
 on:
-  pull_request:
+  push:
     paths:
     - 'stack.yaml'
     - 'stack.yaml.lock'
@@ -19,11 +19,11 @@ jobs:
     - uses: actions/checkout@v1
     - name: Publish CI Base Image
       run: auto/publish-ci-base
-      # uses: elgohr/Publish-Docker-Github-Action@master
-      # with:
-      #   name: alistairb/label-maker/label-maker-ci-base
-      #   username: ${{ github.actor }}
-      #   password: ${{ secrets.GITHUB_TOKEN }}
-      #   registry: docker.pkg.github.com
-      #   dockerfile: support/ci-base/Dockerfile
-      #   workdir: .
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: alistairb/label-maker/label-maker-ci-base
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+        dockerfile: support/ci-base/Dockerfile
+        workdir: .
