@@ -9,6 +9,7 @@ jobs:
 
     env:
       DOCKER_REGISTRY: docker.pkg.github.com
+      SERVICE: ci
 
     steps:
     - uses: actions/checkout@v1
@@ -16,11 +17,11 @@ jobs:
       run: echo "$GITHUB_TOKEN" | docker login -u AlistairB --password-stdin "$DOCKER_REGISTRY"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Run Tests
+      run: auto/test
     - name: HLint
-      env:
-        SERVICE: ci
       run: auto/hlint
     - name: GHC Warning Check
-      env:
-        SERVICE: ci
       run: auto/ghc-check
+    - name: Weeder
+      run: auto/weeder
