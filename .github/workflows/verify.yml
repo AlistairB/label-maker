@@ -20,3 +20,7 @@ jobs:
       env:
         SERVICE: ci
       run: auto/hlint
+    - name: GHC Warning Check
+      env:
+        SERVICE: ci
+      run: auto/ghc-check
