@@ -19,19 +19,19 @@ You have series of related repositories that you want to have the same set of la
 ### Binary
 
 ```bash
-./label-maker \
-  --repo-config=repos.yml \
-  --github-host=api.github.com \
-  --github-access-token=12345
+stack run -- \
+  --config-file=config/config.yml \
+  --github-api-host=api.github.com \
+  --github-token=12345
 ```
 
 ### Docker
 
 ```bash
 docker run --rm alistairb/label-maker \
-  --repo-config=repos.yml \
-  --github-host=api.github.com \
-  --github-access-token=12345
+  --config-file=config/config.yml \
+  --github-api-host=api.github.com \
+  --github-token=12345
 ```
 
 ## Config Format
