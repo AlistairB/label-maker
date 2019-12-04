@@ -36,6 +36,23 @@ labels:
     - old-label-name: will-not-fix
       new-label-name: wont-fix|]
 
+
+justSync :: ByteString
+justSync = [r|---
+organizations:
+  cool-org:
+    repos: all
+  other-org:
+    repos:
+      - thinger
+      - wrangler
+labels:
+  sync:
+    awesome-issue:
+      color: '000000' # hex color
+    wont-fix:
+      color: 'b98fe0' # hex color|]
+
 repos :: ByteString
 repos = "[ \"thinger\", \"wrangler\" ]"
 
@@ -93,6 +110,20 @@ spec =
           rename =
             [ RenameLabel (LabelName "will-not-fix") (LabelName "wont-fix")
             ]
+          expected = Right $ LabelMakerConfig organizations (LabelGroups sync delete rename)
+      result `shouldBe` expected
+
+    it "decodes the LabelMakerConfig with just sync" $ do
+      let result = decodeEither justSync
+          organizations = Organization "cool-org" OrganizationReposAll
+            :| [Organization "other-org" $ OrganizationReposSpecific $ OrganizationRepo
+                <$> ("thinger" :| ["wrangler"])]
+          sync =
+            [ SyncLabel (LabelName "wont-fix") (LabelColour "b98fe0")
+            , SyncLabel (LabelName "awesome-issue") (LabelColour "000000")
+            ]
+          delete = []
+          rename = []
           expected = Right $ LabelMakerConfig organizations (LabelGroups sync delete rename)
       result `shouldBe` expected
 

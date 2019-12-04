@@ -21,6 +21,7 @@ import Data.Vector (fromList)
 
 import Data.Text (Text)
 import Data.List.NonEmpty (NonEmpty)
+import Data.Maybe (maybeToList)
 import Data.HashMap.Strict (toList, HashMap)
 
 newtype RawLabelConfig = RawLabelConfig { unRawLabelConfig :: Text }
@@ -110,8 +111,8 @@ instance FromJSON LabelGroups where
   parseJSON = withObject "LabelGroups" $ \v -> do
     sync' <- v .: "sync"
     sync <- traverse pairToSyncLabel (toList sync')
-    delete <- v .: "delete"
-    rename <- v .: "rename"
+    delete <- fmap (concat . maybeToList) $ v .:? "delete"
+    rename <- fmap (concat . maybeToList) $ v .:? "rename"
     pure $ LabelGroups sync delete rename
       where
         pairToSyncLabel :: (Text, Value) -> Parser SyncLabel
