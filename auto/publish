@@ -12,10 +12,10 @@ mkdir -p artifacts
 echo $IMAGE > artifacts/docker-image.txt
 
 echo building $IMAGE
-docker build -t $IMAGE -f support/prod/Dockerfile .
+docker build -t $IMAGE -f support/runner/Dockerfile .
 
-docker tag $IMAGE $REPOSITORY:latest
-echo pushing $IMAGE to registry
-docker push $IMAGE
-echo pushing $REPOSITORY:latest to registry
-docker push $REPOSITORY:latest
+# docker tag $IMAGE $REPOSITORY:latest
+# echo pushing $IMAGE to registry
+# docker push $IMAGE
+# echo pushing $REPOSITORY:latest to registry
+# docker push $REPOSITORY:latest

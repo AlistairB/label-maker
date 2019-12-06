@@ -1,10 +1,9 @@
-FROM debian:buster
+FROM debian:stretch
 
-# RUN apt-get update \
-#  && apt-get install -y \
-#     curl \
-#     netbase \
-#  && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+ && apt-get install -y \
+    libc6 \
+ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
