@@ -7,10 +7,6 @@ jobs:
   hlint:
     runs-on: ubuntu-latest
 
-    env:
-      DOCKER_REGISTRY: docker.pkg.github.com
-      SERVICE: ci
-
     steps:
     - uses: actions/checkout@v1
     - uses: azure/docker-login@v1

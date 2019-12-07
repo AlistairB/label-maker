@@ -3,12 +3,21 @@ set -Eexuo pipefail
 
 cd $(dirname $0)/..
 
+if [ "$GITHUB_ACTIONS" = true]
+then
+    SERVICE=ci
+else
+    SERVICE=dev
+fi
+
 # Create volume
 docker volume create --name stack-global > /dev/null
 
 mkdir -p ./dist
 
-docker-compose build ${SERVICE-dev}
+GITHUB_ACTIONS
+
+docker-compose build $SERVICE
 
 # Run dev script or use what is passed in as arguments
-docker-compose run --rm ${SERVICE-dev} "$@"
+docker-compose run --rm $SERVICE "$@"
