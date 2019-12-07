@@ -11,4 +11,4 @@ function update_file() {
 update_file docker-compose.yml
 update_file support/ci-base/Dockerfile
 update_file support/dev/Dockerfile
-update_file support/prod/Dockerfile
+update_file support/runner/Dockerfile
