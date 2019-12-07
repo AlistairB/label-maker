@@ -3,6 +3,8 @@ set -Eexuo pipefail
 
 cd $(dirname $0)/..
 
+GITHUB_ACTIONS=${GITHUB_ACTIONS-false}
+
 if [ "$GITHUB_ACTIONS" = true ];
 then
     SERVICE=ci
@@ -14,8 +16,6 @@ fi
 docker volume create --name stack-global > /dev/null
 
 mkdir -p ./dist
-
-GITHUB_ACTIONS
 
 docker-compose build $SERVICE
 
