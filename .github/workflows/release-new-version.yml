@@ -1,0 +1,30 @@
+name: Release New App Version
+
+on:
+  push:
+    paths:
+    - 'SEMVER'
+
+jobs:
+
+  publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: docker login
+      run: echo "$GITHUB_TOKEN" | docker login -u ${{ github.actor }} --password-stdin "$DOCKER_REGISTRY"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build Executable
+      run: auto/build-to-local
+    - name: Publish to Docker Hub
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: alistairb/label-maker
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        dockerfile: support/runner/Dockerfile
+        workdir: .
+        tag_names: true

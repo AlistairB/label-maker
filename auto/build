@@ -1,6 +1,0 @@
-#!/bin/bash
-set -Eexuo pipefail
-
-cd $(dirname $0)/..
-
-auto/dev-environment stack build --allow-different-user "$@"
