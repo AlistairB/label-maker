@@ -19,4 +19,4 @@ RUN chown -R appuser:appuser /app
 
 USER appuser
 
-CMD echo 'Starting..' && ./label-maker-exe
+CMD ./label-maker-exe
