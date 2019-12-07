@@ -13,10 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: docker login
-      run: echo "$GITHUB_TOKEN" | docker login -u AlistairB --password-stdin "$DOCKER_REGISTRY"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: azure/docker-login@v1
+      name: docker login
+      with:
+        login-server: docker.pkg.github.com
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build Executable
       run: auto/build-to-local
     - name: Publish to Docker Hub
