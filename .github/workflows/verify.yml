@@ -13,10 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: docker login
-      run: echo "$GITHUB_TOKEN" | docker login -u ${{ github.actor }} --password-stdin "$DOCKER_REGISTRY"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: azure/docker-login@v1
+      name: docker login
+      with:
+        login-server: $DOCKER_REGISTRY
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - name: Run Tests
       run: auto/test
     - name: HLint
