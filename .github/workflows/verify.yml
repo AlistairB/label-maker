@@ -16,7 +16,7 @@ jobs:
     - uses: azure/docker-login@v1
       name: docker login
       with:
-        login-server: $DOCKER_REGISTRY
+        login-server: docker.pkg.github.com
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Run Tests
