@@ -3,7 +3,7 @@ set -Eexuo pipefail
 
 cd $(dirname $0)/..
 
-if [ "$GITHUB_ACTIONS" = true]
+if [ "$GITHUB_ACTIONS" = true ];
 then
     SERVICE=ci
 else
