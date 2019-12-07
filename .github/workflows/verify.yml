@@ -1,6 +1,6 @@
 name: Verify
 
-on: pull_request
+on: [push, pull_request]
 
 jobs:
 
@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: docker login
-      run: echo "$GITHUB_TOKEN" | docker login -u AlistairB --password-stdin "$DOCKER_REGISTRY"
+      run: echo "$GITHUB_TOKEN" | docker login -u ${{ github.actor }} --password-stdin "$DOCKER_REGISTRY"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Run Tests
