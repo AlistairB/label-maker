@@ -6,6 +6,17 @@ Sync github labels between repositories.
 
 You have series of related repositories that you want to have the same set of labels. This is useful when tracking issues from many repositories at an org level github project. It is also useful if you have a particular label setup that you like and want to use for many repositories.
 
+### Cool Things About Label Maker
+
+- It fetches the repo labels first to determine the exact minimum updates required.
+- It writes labels in parallel.
+- Thus it is very fast overall.
+- Syncs labels between multiple orgs.
+
+### Alternatives
+
+- https://github.com/Financial-Times/github-label-sync - More feature rich, but less geared towards a team that wants to keep multiple orgs / repos in sync with a single config / run.
+
 ## Usage
 
 ### Binary
@@ -27,6 +38,8 @@ docker run alistairb/label-maker \
 ```
 
 ## Config Format
+
+Note: Label Maker does not touch repo labels not specified in the config in some way. This allows repos to have custom if labels if they need.
 
 ```yaml
 organizations:
