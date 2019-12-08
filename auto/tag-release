@@ -1,0 +1,15 @@
+#!/bin/bash
+set -Eexuo pipefail
+
+cd $(dirname $0)/..
+
+if [[ $# -eq 0 ]] ; then
+    echo 'Please provide a tag version in the format of X.X.X'
+    exit 0
+fi
+
+VERSION="v$@"
+
+git tag "$VERSION"
+
+git push origin --tags
