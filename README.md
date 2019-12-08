@@ -15,20 +15,9 @@ You have series of related repositories that you want to have the same set of la
 
 ### Alternatives
 
-- https://github.com/Financial-Times/github-label-sync - More feature rich, but less geared towards a team that wants to keep multiple orgs / repos in sync with a single config / run.
+- [GitHub Label Sync](https://github.com/Financial-Times/github-label-sync) - More feature rich, but less geared towards a team that wants to keep multiple orgs / repos in sync with a single config / run.
 
 ## Usage
-
-### Binary
-
-```bash
-stack run -- \
-  --config-file=config.yml \
-  --github-api-host=api.github.com \
-  --github-token=12345
-```
-
-### Docker
 
 ```bash
 docker run alistairb/label-maker \
@@ -66,14 +55,46 @@ labels:
 
 ## Development
 
-### Running in CI
+It is recommended to run on your host with [Haskell Stack](https://haskellstack.org).
+
+### Running Tests
+
+```bash
+stack test
+```
+
+### Running Locally
+
+```bash
+stack run -- \
+  --config-file=config.yml \
+  --github-api-host=api.github.com \
+  --github-token=12345
+```
+
+### Working in Docker
+
+```bash
+auto/dev-environment bash
+stack test # or other commands
+```
+
+### Verifying changes
+
+This simplest way is to create a PR and let the build run. Or you can run the commands from:
+
+- `auto/test`
+- `auto/hlint`
+- `auto/weeder`
+- `auto/ghc-check`
+
+These will run in Docker, or you can run the commands on the host directly eg. `stack exec --allow-different-user hlint .`
+
+
+## Running in CI
 
 Due to the time + memory it takes to setup stack/ghc and compile all the dependencies it isn't desirable to do this on CI agents.
 
-Instead this is done separately and a base image is created with everything baked in. It is recommended to push a new version of the base container when there are significant stackage version or library changes.
+Instead this is done separately and a base image is created with everything baked in.
 
-If the CI agent has cached the docker image you may want to update the version in `auto/release-ci-base` and `docker-compose.yml`.
-
-```bash
-auto/release-ci-base
-```
+This is done automatically by [a github action](https://github.com/AlistairB/label-maker/actions?query=workflow%3A%22Publish+CI+Base+Image%22) when dependencies change.

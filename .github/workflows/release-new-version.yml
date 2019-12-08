@@ -42,7 +42,6 @@ jobs:
         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         DOCKERHUB_REPOSITORY: alistairb/label-maker
-        README_FILEPATH: ./DOCKERHUB_DESC.md
 
     # create github release
     - name: Create Release
