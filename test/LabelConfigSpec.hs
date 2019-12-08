@@ -25,7 +25,7 @@ organizations:
 
 labels:
   sync:
-    awesome-issue: 000000
+    awesome-issue: '000000'
     wont-fix: b98fe0
   delete:
     - bad-issue-label
@@ -46,7 +46,7 @@ organizations:
       - wrangler
 labels:
   sync:
-    awesome-issue: 000000
+    awesome-issue: '000000'
     wont-fix: b98fe0
 |]
 
@@ -55,11 +55,6 @@ repos = "[ \"thinger\", \"wrangler\" ]"
 
 reposAll :: ByteString
 reposAll = "all"
-
-syncLabel :: ByteString
-syncLabel = [r|awesome-issue:
-  color: '000000' # hex color
-|]
 
 deleteLabelYAML :: ByteString
 deleteLabelYAML = "bad-issue-label"
@@ -132,9 +127,4 @@ spec =
     it "decodes the org all repos" $ do
       let result = decodeEither reposAll
           expected = Right  OrganizationReposAll
-      result `shouldBe` expected
-
-    it "decodes a sync label" $ do
-      let result = decodeEither syncLabel
-          expected = Right $ SyncLabel (LabelName "awesome-issue") (LabelColour "000000")
       result `shouldBe` expected

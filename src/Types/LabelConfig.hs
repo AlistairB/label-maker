@@ -75,12 +75,6 @@ instance FromJSON LabelColour where
   parseJSON = withObject "LabelColour" $
     \v -> LabelColour <$> v .: "color"
 
-instance FromJSON SyncLabel where
-    parseJSON = withObject "SyncLabel" $ \v -> do
-      let (name, colour) = head . toList $ v
-      labelColour <- parseJSON colour
-      pure $ SyncLabel (LabelName name) labelColour
-
 instance FromJSON OrganizationRepos where
   parseJSON (String "all") = pure OrganizationReposAll
   parseJSON v@(Array _) = OrganizationReposSpecific <$> parseJSON v
@@ -116,7 +110,7 @@ instance FromJSON LabelGroups where
     pure $ LabelGroups sync delete rename
       where
         pairToSyncLabel :: (Text, Value) -> Parser SyncLabel
-        pairToSyncLabel (k, v) = SyncLabel (LabelName k) <$> parseJSON v
+        pairToSyncLabel (k, v) = withText "LabelColour" (\s -> pure $ SyncLabel (LabelName k) (LabelColour s)) v
 
 instance FromJSON LabelName where
   parseJSON (String label) = pure $ LabelName label

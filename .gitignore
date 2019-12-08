@@ -4,3 +4,4 @@ label-maker.cabal
 *~
 cabal.project.local
 dist/
+*.dump-hi
