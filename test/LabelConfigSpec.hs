@@ -16,12 +16,11 @@ import Types.LabelConfig
 testYAML :: ByteString
 testYAML = [r|---
 organizations:
-  cool-org:
-    repos: all
-  other-org:
-    repos:
-      - thinger
-      - wrangler
+  - cool-org
+  - other-org:
+      repos:
+        - thinger
+        - wrangler
 
 labels:
   sync:
@@ -38,12 +37,11 @@ labels:
 justSync :: ByteString
 justSync = [r|---
 organizations:
-  cool-org:
-    repos: all
-  other-org:
-    repos:
-      - thinger
-      - wrangler
+  - cool-org
+  - other-org:
+      repos:
+        - thinger
+        - wrangler
 labels:
   sync:
     awesome-issue: '000000'
