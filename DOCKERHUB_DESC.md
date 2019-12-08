@@ -50,17 +50,3 @@ labels:
     - old-label-name: will-not-fix
       new-label-name: wont-fix
 ```
-
-## Development
-
-### Running in CI
-
-Due to the time + memory it takes to setup stack/ghc and compile all the dependencies it isn't desirable to do this on CI agents.
-
-Instead this is done separately and a base image is created with everything baked in. It is recommended to push a new version of the base container when there are significant stackage version or library changes.
-
-If the CI agent has cached the docker image you may want to update the version in `auto/release-ci-base` and `docker-compose.yml`.
-
-```bash
-auto/release-ci-base
-```

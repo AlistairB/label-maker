@@ -2,8 +2,8 @@ name: Release New App Version
 
 on:
   push:
-    paths:
-    - 'SEMVER'
+    tags:
+      - 'v*'
 
 jobs:
 
@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # setup
     - uses: actions/checkout@v1
     - uses: azure/docker-login@v1
       name: docker login
@@ -19,8 +20,12 @@ jobs:
         login-server: docker.pkg.github.com
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+
+    # build
     - name: Build Executable
       run: auto/build-to-local
+
+    # update docker hub
     - name: Publish to Docker Hub
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
@@ -30,3 +35,22 @@ jobs:
         dockerfile: support/runner/Dockerfile
         workdir: .
         tag_names: true
+
+    - name: Docker Hub Description
+      uses: peter-evans/dockerhub-description@v2.1.0
+      env:
+        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        DOCKERHUB_REPOSITORY: alistairb/label-maker
+        README_FILEPATH: ./DOCKERHUB_DESC.md
+
+    # create github release
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
