@@ -4,6 +4,7 @@ FROM debian:stretch@sha256:99768ac883dc7d4f9c8f55dade9abb39afc1a3d737a8457dc5735
 RUN apt-get update \
  && apt-get install -y \
     libgmp10 \
+    ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
 ADD dist /app
