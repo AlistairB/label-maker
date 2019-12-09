@@ -32,19 +32,16 @@ Note: Label Maker does not touch repo labels not specified in the config in some
 
 ```yaml
 organizations:
-  cool-org:
-    repos: all
-  other-org:
-    repos:
-      - thinger
-      - wrangler
+  - cool-org
+  - other-org:
+      repos:
+        - thinger
+        - wrangler
 
 labels:
   sync:
-    awesome-issue:
-      color: '000000' # hex color
-    wont-fix:
-      color: 'b98fe0' # hex color
+    awesome-issue: '000000' # hex color
+    wont-fix: b98fe0 # hex color
   delete:
     - bad-issue-label
     - straight-to-prod

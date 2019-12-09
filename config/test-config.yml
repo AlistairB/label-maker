@@ -9,12 +9,9 @@ organizations:
 
 labels:
   sync:
-    zomg-duplicate:
-      color: '000000'
-    invalid:
-      color: '333333'
-    new-label:
-      color: 'b98fe0'
+    zomg-duplicate: '000000'
+    invalid: '333333'
+    new-label: b98fe0
   delete:
     - bug
   rename:

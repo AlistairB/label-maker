@@ -16,19 +16,16 @@ import Types.LabelConfig
 testYAML :: ByteString
 testYAML = [r|---
 organizations:
-  cool-org:
-    repos: all
-  other-org:
-    repos:
-      - thinger
-      - wrangler
+  - cool-org
+  - other-org:
+      repos:
+        - thinger
+        - wrangler
 
 labels:
   sync:
-    awesome-issue:
-      color: '000000' # hex color
-    wont-fix:
-      color: 'b98fe0' # hex color
+    awesome-issue: '000000'
+    wont-fix: b98fe0
   delete:
     - bad-issue-label
     - straight-to-prod
@@ -40,29 +37,19 @@ labels:
 justSync :: ByteString
 justSync = [r|---
 organizations:
-  cool-org:
-    repos: all
-  other-org:
-    repos:
-      - thinger
-      - wrangler
+  - cool-org
+  - other-org:
+      repos:
+        - thinger
+        - wrangler
 labels:
   sync:
-    awesome-issue:
-      color: '000000' # hex color
-    wont-fix:
-      color: 'b98fe0' # hex color|]
+    awesome-issue: '000000'
+    wont-fix: b98fe0
+|]
 
 repos :: ByteString
 repos = "[ \"thinger\", \"wrangler\" ]"
-
-reposAll :: ByteString
-reposAll = "all"
-
-syncLabel :: ByteString
-syncLabel = [r|awesome-issue:
-  color: '000000' # hex color
-|]
 
 deleteLabelYAML :: ByteString
 deleteLabelYAML = "bad-issue-label"
@@ -130,14 +117,4 @@ spec =
     it "decodes the org repos" $ do
       let result = decodeEither repos
           expected = Right $ OrganizationReposSpecific $ OrganizationRepo <$> ("thinger" :| ["wrangler"])
-      result `shouldBe` expected
-
-    it "decodes the org all repos" $ do
-      let result = decodeEither reposAll
-          expected = Right  OrganizationReposAll
-      result `shouldBe` expected
-
-    it "decodes a sync label" $ do
-      let result = decodeEither syncLabel
-          expected = Right $ SyncLabel (LabelName "awesome-issue") (LabelColour "000000")
       result `shouldBe` expected

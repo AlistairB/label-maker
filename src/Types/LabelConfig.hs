@@ -75,12 +75,6 @@ instance FromJSON LabelColour where
   parseJSON = withObject "LabelColour" $
     \v -> LabelColour <$> v .: "color"
 
-instance FromJSON SyncLabel where
-    parseJSON = withObject "SyncLabel" $ \v -> do
-      let (name, colour) = head . toList $ v
-      labelColour <- parseJSON colour
-      pure $ SyncLabel (LabelName name) labelColour
-
 instance FromJSON OrganizationRepos where
   parseJSON (String "all") = pure OrganizationReposAll
   parseJSON v@(Array _) = OrganizationReposSpecific <$> parseJSON v
@@ -95,16 +89,20 @@ instance FromJSON OrganizationRepo where
         (typeMismatch "String" invalid)
 
 instance FromJSON Organization where
-  parseJSON = withObject "Organization" $ \v -> do
-    let (name, body) = head . toList $ v
-    repos <- withObject "Repos" (.: "repos") body
-    pure $ Organization name repos
+  parseJSON (String orgName) = pure $ Organization orgName OrganizationReposAll
+  parseJSON (Object v) = do
+        let (name, body) = head . toList $ v
+        repos <- withObject "Repos" (.: "repos") body
+        pure $ Organization name repos
+  parseJSON invalid =
+    prependFailure ("parsing organization failed, " <> show invalid)
+        (typeMismatch "String" invalid)
 
 instance FromJSON LabelMakerConfig where
   parseJSON = withObject "LabelMakerConfig" $ \v -> do
     orgs <- v .: "organizations"
     labels <- v .: "labels"
-    orgsResult <- parseJSON $ getEachKeyValueAsArrayObjects orgs
+    orgsResult <- parseJSON orgs
     pure $ LabelMakerConfig orgsResult labels
 
 instance FromJSON LabelGroups where
@@ -116,7 +114,7 @@ instance FromJSON LabelGroups where
     pure $ LabelGroups sync delete rename
       where
         pairToSyncLabel :: (Text, Value) -> Parser SyncLabel
-        pairToSyncLabel (k, v) = SyncLabel (LabelName k) <$> parseJSON v
+        pairToSyncLabel (k, v) = withText "LabelColour" (pure . SyncLabel (LabelName k) . LabelColour) v
 
 instance FromJSON LabelName where
   parseJSON (String label) = pure $ LabelName label
@@ -133,6 +131,3 @@ instance FromJSON DeleteLabel where
 instance FromJSON RenameLabel where
   parseJSON = withObject "RenameLabel" $ \o ->
     RenameLabel <$> o .: "old-label-name" <*> o .: "new-label-name"
-
-getEachKeyValueAsArrayObjects :: HashMap Text Value -> Value
-getEachKeyValueAsArrayObjects hashMap = Array $ fromList $ (fmap (object . (:[])) . toList) hashMap
