@@ -6,8 +6,6 @@ RUN apt-get update \
     libgmp10 \
  && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
-
 ADD dist /app
 
 # ci artifacts won't be executable, so need this to ensure it can be run
@@ -19,4 +17,6 @@ RUN chown -R appuser:appuser /app
 
 USER appuser
 
-CMD ./label-maker-exe
+WORKDIR /cwd
+
+ENTRYPOINT [ "/app/label-maker-exe" ]
