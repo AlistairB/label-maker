@@ -3,4 +3,4 @@ set -Eexuo pipefail
 
 cd $(dirname $0)/..
 
-auto/dev-environment stack build --allow-different-user --pedantic
+auto/dev-environment stack clean && stack test --no-run-tests --allow-different-user --pedantic

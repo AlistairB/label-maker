@@ -17,12 +17,11 @@ module Types.LabelConfig
 import GHC.Generics (Generic)
 import Data.Yaml
 import Data.Aeson.Types
-import Data.Vector (fromList)
 
 import Data.Text (Text)
 import Data.List.NonEmpty (NonEmpty)
 import Data.Maybe (maybeToList)
-import Data.HashMap.Strict (toList, HashMap)
+import Data.HashMap.Strict (toList)
 
 newtype RawLabelConfig = RawLabelConfig { unRawLabelConfig :: Text }
   deriving (Eq, Show)
