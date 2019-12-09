@@ -51,9 +51,6 @@ labels:
 repos :: ByteString
 repos = "[ \"thinger\", \"wrangler\" ]"
 
-reposAll :: ByteString
-reposAll = "all"
-
 deleteLabelYAML :: ByteString
 deleteLabelYAML = "bad-issue-label"
 
@@ -120,9 +117,4 @@ spec =
     it "decodes the org repos" $ do
       let result = decodeEither repos
           expected = Right $ OrganizationReposSpecific $ OrganizationRepo <$> ("thinger" :| ["wrangler"])
-      result `shouldBe` expected
-
-    it "decodes the org all repos" $ do
-      let result = decodeEither reposAll
-          expected = Right  OrganizationReposAll
       result `shouldBe` expected
