@@ -24,7 +24,7 @@ organizations:
 
 labels:
   sync:
-    awesome-issue: '000000'
+    awesome-issue: '000000' # black
     wont-fix: b98fe0
   delete:
     - bad-issue-label
@@ -44,7 +44,7 @@ organizations:
         - wrangler
 labels:
   sync:
-    awesome-issue: '000000'
+    awesome-issue: '000000' # black
     wont-fix: b98fe0
 |]
 
