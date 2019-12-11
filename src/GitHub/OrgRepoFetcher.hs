@@ -3,6 +3,7 @@ module GitHub.OrgRepoFetcher
   )where
 
 import qualified GitHub                         as Github
+import qualified Control.Concurrent.ParallelIO.Local as Local
 import Data.Text (Text, pack)
 import Data.Text.Encoding (encodeUtf8)
 import Data.Proxy
@@ -67,7 +68,8 @@ getAllOrgRepos gheAuth orgName = do
 
 getFetchedOrganisation :: Github.Auth -> Text -> [Github.Repo] -> IO (Either (NonEmpty SpecificGithubError) FetchedOrganization)
 getFetchedOrganisation gheAuth orgName repos = do
-  eitherFetchedRepos <- for repos (getRepoLabels gheAuth)
+  eitherFetchedRepos <- Local.withPool 10 $ \pool ->
+                          Local.parallel pool $ fmap (getRepoLabels gheAuth) repos
   let (failures, successes) = partitionEithers eitherFetchedRepos
   pure $ case failures of
     [] -> Right $ FetchedOrganization (FetchedOrgName orgName) successes
