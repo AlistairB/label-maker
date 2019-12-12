@@ -2,10 +2,9 @@ module OrchestrateApp
   ( orchestrateApp
   ) where
 
-import           Data.Text (Text, pack)
 import           Polysemy
 import           Polysemy.Error
-import           Polysemy.Output
+import           Polysemy.Trace
 import           Polysemy.Reader
 import           Effects
 import           Types.App
@@ -20,17 +19,17 @@ orchestrateApp
      , FetchOrgRepos
      , UpdateLabels
      , Error AppError
-     , Output Text
+     , Trace
      ]
     r
   => Sem r ()
 orchestrateApp = do
   rawConfig <- performRead
-  output $ "Raw Config: " <> (pack . show $ rawConfig)
+  trace $ "Raw Config: " <> show rawConfig
   config <- performDecode rawConfig
-  output $ "Decoded Config: " <> (pack . show $ config)
+  trace $ "Decoded Config: " <> show config
   orgRepos <- performFetchOrgRepos config
-  output $ "Fetched Orgs: " <> (pack . show $ orgRepos)
+  trace $ "Fetched Orgs: " <> show orgRepos
   lmup <- produceUpdatePlans config orgRepos
-  output $ "Produced Plans: " <> (pack . show $ lmup)
+  trace $ "Produced Plans: " <> show lmup
   performLabelUpdate lmup
