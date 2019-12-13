@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  verify:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,9 +19,45 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Run Tests
       run: auto/test
+
+  hlint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: azure/docker-login@v1
+      name: docker login
+      with:
+        login-server: docker.pkg.github.com
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - name: HLint
       run: auto/hlint
+
+  ghc-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: azure/docker-login@v1
+      name: docker login
+      with:
+        login-server: docker.pkg.github.com
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - name: GHC Warning Check
       run: auto/ghc-check
-    - name: Weeder
+
+  weeder:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: azure/docker-login@v1
+      name: docker login
+      with:
+        login-server: docker.pkg.github.com
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Package Weeder Check
       run: auto/weeder
