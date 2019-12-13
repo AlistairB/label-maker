@@ -41,8 +41,9 @@ doConcat xs = NE.fromList $ Prelude.concat $ xs <&> NE.toList
 getOrgRepos :: Github.Auth -> Organization -> IO (Either (NonEmpty SpecificGithubError) FetchedOrganization)
 getOrgRepos gheAuth (Organization orgName OrganizationReposAll) = getAllOrgRepos gheAuth orgName
 getOrgRepos gheAuth (Organization orgName (OrganizationReposSpecific repoNames)) = do
-  fetchedOrgResults <- for repoNames (getSpecificRepo gheAuth orgName . unOrganizationRepo)
-  let (failures, successes) = partitionEithers (NE.toList fetchedOrgResults)
+  fetchedOrgResults <- Local.withPool 10 $ \pool ->
+    Local.parallel pool $ fmap (getSpecificRepo gheAuth orgName . unOrganizationRepo) (NE.toList repoNames)
+  let (failures, successes) = partitionEithers fetchedOrgResults
   pure $ case failures of
     [] -> Right $ FetchedOrganization (FetchedOrgName orgName) successes
     (x:xs) -> Left (x :| xs)
