@@ -53,7 +53,11 @@ getSpecificRepo gheAuth orgName repoName = do
       repo  = Github.mkName Proxy repoName
   loadedRepo <- Github.github gheAuth (Github.repositoryR owner repo)
   let errorMappedLoadedRepo = first (SGFetchOrgRepoError . pack . show) loadedRepo
-  fetchedRepo <- for errorMappedLoadedRepo (getRepoLabels gheAuth)
+  let notArchivedErrMapLoadedRepo = errorMappedLoadedRepo >>= \r -> if | Github.repoArchived r ->
+                                                                            Left (SGFetchOrgRepoError $ "Specific repo org: " <> orgName <> " repo: " <> repoName <> " is archived.")
+                                                                       | otherwise -> Right r
+
+  fetchedRepo <- for notArchivedErrMapLoadedRepo (getRepoLabels gheAuth)
   pure $ first (SGFetchRepoLabelError . pack . show) (join fetchedRepo)
 
 getAllOrgRepos :: Github.Auth -> Text -> IO (Either (NonEmpty SpecificGithubError) FetchedOrganization)
@@ -63,7 +67,9 @@ getAllOrgRepos gheAuth orgName = do
   eitherRepos <- Github.github gheAuth (Github.organizationReposR name publicity Github.FetchAll)
   let eitherListRepos = eitherRepos <&> VEC.toList
   case eitherListRepos of
-    Right repos -> getFetchedOrganisation gheAuth orgName repos
+    Right repos ->
+      let nonArchivedRepos = Prelude.filter (not . Github.repoArchived) repos
+      in  getFetchedOrganisation gheAuth orgName nonArchivedRepos
     Left e -> pure $ Left $ SGFetchOrgReposError (pack $ show e) :| []
 
 getFetchedOrganisation :: Github.Auth -> Text -> [Github.Repo] -> IO (Either (NonEmpty SpecificGithubError) FetchedOrganization)
