@@ -21,6 +21,8 @@ You have series of related repositories that you want to have the same set of la
 
 ## Usage
 
+Run with docker - https://hub.docker.com/r/alistairb/label-maker
+
 ```bash
 docker run alistairb/label-maker \
   --config-file=config.yml \
