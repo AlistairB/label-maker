@@ -1,5 +1,7 @@
 # Label Maker
 
+![](https://github.com/alistairb/label-maker/workflows/Verify/badge.svg)
+
 Sync github labels between repositories.
 
 ## Why?
