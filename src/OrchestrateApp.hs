@@ -6,8 +6,6 @@ import           Polysemy
 import           Polysemy.Error
 import           Polysemy.Trace
 import           Polysemy.Reader
-import           Data.Text (unpack)
-import           Data.List (intercalate)
 
 import           Effects
 import           Types.App
@@ -35,8 +33,5 @@ orchestrateApp = do
   orgRepos <- performFetchOrgRepos config
   trace $ "Fetched Orgs: " <> toLog orgRepos
   lmup <- produceUpdatePlans config orgRepos
-  trace $ "Produced Plans: " <> show lmup
+  trace $ "Produced Plans: " <> toLog lmup
   performLabelUpdate lmup
-
-toLog :: Loggable a => a -> String
-toLog = intercalate "\n" . fmap unpack . getLogs
