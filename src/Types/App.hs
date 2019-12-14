@@ -8,7 +8,6 @@ import Data.List.NonEmpty
 
 data AppError =
     ParseFailure
-  | WriteFailure
   | GithubErrors (NonEmpty SpecificGithubError)
   deriving (Eq, Show)
 
