@@ -33,7 +33,7 @@ orchestrateApp = do
   config <- performDecode rawConfig
   trace $ "Decoded Config: " <> toLog config
   orgRepos <- performFetchOrgRepos config
-  trace $ "Fetched Orgs: " <> show orgRepos
+  trace $ "Fetched Orgs: " <> toLog orgRepos
   lmup <- produceUpdatePlans config orgRepos
   trace $ "Produced Plans: " <> show lmup
   performLabelUpdate lmup
