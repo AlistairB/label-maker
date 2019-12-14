@@ -1,6 +1,6 @@
 {-# LANGUAGE FlexibleInstances #-}
 module Types.Loggable
-  () where
+  (Loggable(..)) where
 
 import Data.Text (Text)
 
@@ -13,6 +13,9 @@ class Loggable a where
 instance (Loggable a, Loggable b) => Loggable (Either a b) where
   getLogs (Right a) = "Successful!" : getLogs a
   getLogs (Left e) = "Failure!" : getLogs e
+
+instance Loggable RawLabelConfig where
+  getLogs a = [ unRawLabelConfig a ]
 
 instance Loggable LabelMakerConfig where
   getLogs _ = [ "..." ]
