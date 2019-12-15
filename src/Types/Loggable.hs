@@ -38,7 +38,7 @@ instance Loggable RawLabelConfig where
   getLogs a = [ unRawLabelConfig a ]
 
 instance Loggable LabelMakerConfig where
-  getLogs _ = [ "..." ]
+  getLogs _ = [ "Valid..." ]
 
 instance Loggable FetchedAllData where
   getLogs = concatMap getLogs . _fetchedOrgs
@@ -60,5 +60,5 @@ instance Loggable LabelUpdate where
         specificMessage = case labelAction of
                             DeleteAction -> "Delete"
                             (CreateAction colour) -> "Create with color " <> colour
-                            (UpdateAction oldName newColour) -> "Rename from " <> oldName <> " with color " <> newColour
+                            (UpdateAction oldName newColour) -> "Update from " <> oldName <> " with color " <> newColour
     in  [ genericMessage <> specificMessage ]
