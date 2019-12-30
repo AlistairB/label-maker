@@ -8,8 +8,6 @@ on:
     - 'package.yaml'
     - 'custom-snapshot.yaml'
     - 'support/ci-base/**'
-    tags-ignore:
-    - 'v*'
 
 jobs:
 
