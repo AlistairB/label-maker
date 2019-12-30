@@ -1,4 +1,4 @@
-FROM debian:stretch@sha256:99768ac883dc7d4f9c8f55dade9abb39afc1a3d737a8457dc5735ef868288cef
+FROM debian:stretch@sha256:85c4668abb4f26e913152ba8fd04fca5f1c2345d3e2653855e6bb0acf461ed50
 # official haskell images are debian stretch https://github.com/haskell/docker-haskell/issues/8
 
 RUN apt-get update \
