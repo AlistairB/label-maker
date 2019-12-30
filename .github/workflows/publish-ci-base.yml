@@ -3,11 +3,11 @@ name: Publish CI Base Image
 on:
   push:
     paths:
-    - 'stack.yaml'
-    - 'stack.yaml.lock'
-    - 'package.yaml'
-    - 'custom-snapshot.yaml'
-    - 'support/ci-base/**'
+      - 'stack.yaml'
+      - 'stack.yaml.lock'
+      - 'package.yaml'
+      - 'custom-snapshot.yaml'
+      - 'support/ci-base/**'
     tags-ignore:
       - '*'
 
