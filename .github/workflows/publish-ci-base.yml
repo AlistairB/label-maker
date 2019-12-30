@@ -9,7 +9,7 @@ on:
     - 'custom-snapshot.yaml'
     - 'support/ci-base/**'
     tags-ignore:
-    - '*'
+    - 'v*'
 
 jobs:
 
