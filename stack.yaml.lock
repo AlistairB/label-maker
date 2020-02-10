@@ -41,7 +41,7 @@ packages:
     hackage: optparse-applicative-0.15.1.0
 snapshots:
 - completed:
-    size: 524155
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/19.yaml
-    sha256: 9f79f6494473c9b46911364b94c4b5ef19ca8d35ebf62e46697cf651f198ee19
-  original: lts-14.19
+    size: 524163
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/25.yaml
+    sha256: 97548b4e927a8a862d4a203687ca18a3f5d2ae75b4b72c946fb29c17df1a5082
+  original: lts-14.25
