@@ -23,15 +23,7 @@ dependencies:
 
 library:
   source-dirs: src
-  ghc-options:
-  # Recommended settings for polysemy
-  - -O2
-  - -flate-specialise
-  - -fspecialise-aggressively
-  - -fplugin=Polysemy.Plugin
   dependencies:
-  - polysemy
-  - polysemy-plugin
   - yaml
   - aeson
   - vector
