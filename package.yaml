@@ -31,6 +31,7 @@ library:
   - parallel-io
   - unordered-containers
   - text
+  - fused-effects
 
 ghc-options:
   # Useful warnings
