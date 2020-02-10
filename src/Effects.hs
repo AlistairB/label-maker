@@ -3,8 +3,6 @@
 
 module Effects where
 
-import Polysemy
-
 import Types.LabelConfig
 import Types.RepoUpdatePlan
 import Types.FetchedData

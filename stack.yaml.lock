@@ -19,19 +19,12 @@ packages:
   original:
     hackage: binary-instances-1
 - completed:
-    hackage: polysemy-1.2.3.0@sha256:d9cfa7942940c7c6d07d1f26ae70c4f1170f9bd6c331bdbe586e810fafc25f17,5878
+    hackage: fused-effects-1.0.0.1@sha256:efbee8b3a7e1e8efdaaaa28208d1537b33a82518b86e2f945d3b5c1a5025f6c0,4726
     pantry-tree:
-      size: 3625
-      sha256: a54b1b565848944e37a5533bd91e91ecb7cdfa21294ba599c13d015d354c4f39
+      size: 5286
+      sha256: 9e212bde9264fe726bd374ccfed5c39cc47316c74621e8f5fa4f561b37635a83
   original:
-    hackage: polysemy-1.2.3.0
-- completed:
-    hackage: polysemy-plugin-0.2.4.0@sha256:b27f399946e90d480271d2b655b6172ed80f9d421f871c21a804511bc7b0f53c,2952
-    pantry-tree:
-      size: 1232
-      sha256: cb625393a44faa3c25e513c7df89742b5bbe457533f8f2ebf37bc6a32bf10423
-  original:
-    hackage: polysemy-plugin-0.2.4.0
+    hackage: fused-effects-1.0.0.1
 - completed:
     hackage: optparse-applicative-0.15.1.0@sha256:a0b9924d88a17c36cd8e6839d7dd2138419dd8f08cbb4f9af18f3c367b0c69a3,4673
     pantry-tree:
