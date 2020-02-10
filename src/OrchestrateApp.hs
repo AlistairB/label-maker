@@ -1,30 +1,38 @@
 module OrchestrateApp
-  ( orchestrateApp
-  ) where
+  ( orchestrateApp,
+  )
+where
 
-import           Polysemy
-import           Polysemy.Error
-import           Polysemy.Trace
-import           Polysemy.Reader
+import Control.Algebra (Has)
+import Control.Effects.Error (Error)
+import Control.Effects.Trace (Trace)
+import Effects
+import Types.App
+import Types.Loggable
+import Types.RunInput
 
-import           Effects
-import           Types.App
-import           Types.RunInput
-import           Types.Loggable
+--  Members
+--     '[ Reader RunSettings
+--      , ReadRawLabelConfig
+--      , DecodeInputData
+--      , ProduceUpdatePlans
+--      , FetchOrgRepos
+--      , UpdateLabels
+--      , Error AppError
+--      , Trace
+--      ]
+--     r
 
-orchestrateApp
-  :: Members
-    '[ Reader RunSettings
-     , ReadRawLabelConfig
-     , DecodeInputData
-     , ProduceUpdatePlans
-     , FetchOrgRepos
-     , UpdateLabels
-     , Error AppError
-     , Trace
-     ]
-    r
-  => Sem r ()
+orchestrateApp ::
+  ( Has ReadRawLabelConfig sig m,
+    Has DecodeInputData sig m,
+    Has ProduceUpdatePlans sig m,
+    Has FetchOrgRepos sig m,
+    Has UpdateLabels sig m,
+    Has (Error AppError) sig m,
+    Has Trace sig m
+  ) =>
+  m ()
 orchestrateApp = do
   rawConfig <- performRead
   trace $ "Raw Config: " <> toLog rawConfig
