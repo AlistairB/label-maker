@@ -1,10 +1,9 @@
-resolver: lts-14.19
+resolver: lts-14.25
 name: custom-snapshot
 packages:
 - github-0.24
 - binary-instances-1
 
-- polysemy-1.2.3.0
-- polysemy-plugin-0.2.4.0
+- fused-effects-1.0.0.1
 
 - optparse-applicative-0.15.1.0
