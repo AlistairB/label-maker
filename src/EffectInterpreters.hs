@@ -49,7 +49,7 @@ fromEither (Right a) = pure a
 
 instance (Algebra sig m, Has (Error AppError) sig m) => Algebra (DecodeInputData :+: sig) (DecodeInputDataC m) where
   alg (L (PerformDecode (RawLabelConfig rawText) k)) =
-    (fromEither $ first (const ParseFailure) $ decodeEither' $ encodeUtf8 rawText) >>= k
+    (fromEither . first (const ParseFailure) . decodeEither' . encodeUtf8) rawText >>= k
   alg (R other) = DecodeInputDataC (alg (handleCoercible other))
 
 newtype FetchOrgReposIOC m a = FetchOrgReposIOC {runFetchOrgReposIOC :: m a}
