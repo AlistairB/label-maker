@@ -3,7 +3,13 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE UndecidableInstances #-}
 
-module EffectInterpreters where
+module EffectInterpreters (
+  ReadRawLabelConfigIOC (..),
+  DecodeInputDataC (..),
+  FetchOrgReposIOC (..),
+  ProduceUpdatePlansC (..),
+  UpdateLabelsIOC (..),
+) where
 
 -- readRawLabelConfig
 --  , decodeInputData
@@ -54,7 +60,7 @@ instance (Algebra sig m, Has (Reader RunSettings) sig m, MonadIO m) => Algebra (
 --     embed $ readFile (unpack configFile) <&> (RawLabelConfig . pack)
 
 newtype DecodeInputDataC m a = DecodeInputDataC {runDecodeInputDataC :: m a}
-  deriving (Applicative, Functor, Monad)
+  deriving (Applicative, Functor, Monad, MonadIO) -- seems MonadIO is needed, else you can't chain this with IO interpreters
 
 fromEither :: (Has (Throw l) sig m) => Either l r -> m r
 fromEither (Left e) = throwError e
@@ -101,7 +107,7 @@ instance
 --     fromEither result
 
 newtype ProduceUpdatePlansC m a = ProduceUpdatePlansC {runProduceUpdatePlansC :: m a}
-  deriving (Applicative, Functor, Monad)
+  deriving (Applicative, Functor, Monad, MonadIO)
 
 instance (Algebra sig m) => Algebra (ProduceUpdatePlans :+: sig) (ProduceUpdatePlansC m) where
   alg (L (ProduceUpdatePlans config allData k)) = pure (convertToPlan config allData) >>= k

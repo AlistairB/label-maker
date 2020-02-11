@@ -8,8 +8,7 @@ module Lib
 -- import Polysemy.Error
 -- import Polysemy.Reader
 
-import Control.Algebra ()
-import Control.Carrier.Lift (runM, run)
+import Control.Carrier.Lift (runM)
 import Control.Carrier.Error.Either (runError)
 import Control.Carrier.Reader (runReader)
 import Control.Carrier.Trace.Printing (runTrace)
