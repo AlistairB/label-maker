@@ -4,12 +4,11 @@ module OrchestrateApp
 where
 
 import Control.Algebra (Has)
-import Control.Effect.Error (Error)
-import Control.Effect.Trace (Trace)
+import Control.Effect.Trace (Trace, trace)
 import Effects
-import Types.App
+-- import Types.App
 import Types.Loggable
-import Types.RunInput
+-- import Types.RunInput
 
 --  Members
 --     '[ Reader RunSettings
@@ -29,7 +28,6 @@ orchestrateApp ::
     Has ProduceUpdatePlans sig m,
     Has FetchOrgRepos sig m,
     Has UpdateLabels sig m,
-    Has (Error AppError) sig m,
     Has Trace sig m
   ) =>
   m ()

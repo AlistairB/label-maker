@@ -69,7 +69,7 @@ data UpdateLabels m k
   = PerformLabelUpdate LabelMakerUpdatePlan (m k)
   deriving (Functor, Generic1)
 
-performLabelUpdate :: Has UpdateLabels sig m => LabelMakerUpdatePlan -> m ()
+performLabelUpdate :: (Has UpdateLabels sig m) => LabelMakerUpdatePlan -> m ()
 performLabelUpdate labelMakerUpdatePlan = send (PerformLabelUpdate labelMakerUpdatePlan (pure ()))
 
 instance HFunctor UpdateLabels
