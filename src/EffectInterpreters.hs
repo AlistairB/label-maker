@@ -11,9 +11,13 @@ import Data.Text.Encoding (encodeUtf8)
 import Data.Bifunctor (first)
 import Data.Yaml (decodeEither')
 import Data.Functor ((<&>))
-import Polysemy
-import Polysemy.Error
-import Polysemy.Reader
+-- import Polysemy
+-- import Polysemy.Error
+-- import Polysemy.Reader
+
+import Control.Algebra
+import Control.Carrier.Reader
+import Control.Carrier.Error
 
 import Types.App (AppError(..))
 import Types.LabelConfig
@@ -23,14 +27,23 @@ import GitHub.OrgRepoFetcher
 import GitHub.OrgRepoUpdater
 import RepoUpdatePlanConverter (convertToPlan)
 
-readRawLabelConfig ::
-     Members [Embed IO, Reader RunSettings] r =>
-     Sem (ReadRawLabelConfig ': r) a
-  -> Sem r a
-readRawLabelConfig =
-  interpret $ \PerformRead -> do
-    configFile <- ask <&> _configFile
-    embed $ readFile (unpack configFile) <&> (RawLabelConfig . pack)
+
+
+newtype ReadRawLabelConfigIOC m a = ReadRawLabelConfigIOC { runReadRawLabelConfigIOC: m a }
+
+-- instance (Algebra sig m, MonadIO m) => Algebra (Teletype :+: sig) (TeletypeIOC m) where
+--   alg (L (Read    k)) = TeletypeIOC (liftIO getLine      >>= runTeletypeIOC . k)
+--   alg (L (Write s k)) = TeletypeIOC (liftIO (putStrLn s) >>  runTeletypeIOC   k)
+--   alg (R other)       = TeletypeIOC (alg (handleCoercible other))
+
+-- readRawLabelConfig ::
+--      Members [Embed IO, Reader RunSettings] r =>
+--      Sem (ReadRawLabelConfig ': r) a
+--   -> Sem r a
+-- readRawLabelConfig =
+--   interpret $ \PerformRead -> do
+--     configFile <- ask <&> _configFile
+--     embed $ readFile (unpack configFile) <&> (RawLabelConfig . pack)
 
 decodeInputData ::
      Member (Error AppError) r =>

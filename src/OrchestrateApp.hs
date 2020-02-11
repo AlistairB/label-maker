@@ -4,8 +4,8 @@ module OrchestrateApp
 where
 
 import Control.Algebra (Has)
-import Control.Effects.Error (Error)
-import Control.Effects.Trace (Trace)
+import Control.Effect.Error (Error)
+import Control.Effect.Trace (Trace)
 import Effects
 import Types.App
 import Types.Loggable
