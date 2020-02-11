@@ -6,21 +6,7 @@ where
 import Control.Algebra (Has)
 import Control.Effect.Trace (Trace, trace)
 import Effects
--- import Types.App
 import Types.Loggable
--- import Types.RunInput
-
---  Members
---     '[ Reader RunSettings
---      , ReadRawLabelConfig
---      , DecodeInputData
---      , ProduceUpdatePlans
---      , FetchOrgRepos
---      , UpdateLabels
---      , Error AppError
---      , Trace
---      ]
---     r
 
 orchestrateApp ::
   ( Has ReadRawLabelConfig sig m,

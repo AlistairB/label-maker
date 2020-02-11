@@ -22,9 +22,6 @@ instance Effect   ReadRawLabelConfig
 performRead :: Has ReadRawLabelConfig sig m => m RawLabelConfig
 performRead = send (PerformRead pure)
 
--- data ReadRawLabelConfig m a where
---   PerformRead :: ReadRawLabelConfig m RawLabelConfig
-
 data DecodeInputData m k
   = PerformDecode RawLabelConfig (LabelMakerConfig -> m k)
   deriving (Functor, Generic1)
@@ -34,10 +31,6 @@ instance Effect   DecodeInputData
 
 performDecode :: Has DecodeInputData sig m => RawLabelConfig -> m LabelMakerConfig
 performDecode rawLabelConfig = send (PerformDecode rawLabelConfig pure)
-
-
--- data DecodeInputData m a where
---   PerformDecode :: RawLabelConfig -> DecodeInputData m LabelMakerConfig
 
 data FetchOrgRepos m k
   = PerformFetchOrgRepos LabelMakerConfig (FetchedAllData -> m k)
@@ -49,9 +42,6 @@ instance Effect   FetchOrgRepos
 performFetchOrgRepos :: Has FetchOrgRepos sig m => LabelMakerConfig -> m FetchedAllData
 performFetchOrgRepos labelMakerConfig = send (PerformFetchOrgRepos labelMakerConfig pure)
 
--- data FetchOrgRepos m a where
---   PerformFetchOrgRepos :: LabelMakerConfig -> FetchOrgRepos m FetchedAllData
-
 data ProduceUpdatePlans m k
   = ProduceUpdatePlans LabelMakerConfig FetchedAllData (LabelMakerUpdatePlan -> m k)
   deriving (Functor, Generic1)
@@ -62,9 +52,6 @@ instance Effect   ProduceUpdatePlans
 produceUpdatePlans :: Has ProduceUpdatePlans sig m => LabelMakerConfig -> FetchedAllData -> m LabelMakerUpdatePlan
 produceUpdatePlans labelMakerConfig fetchedAllData = send (ProduceUpdatePlans labelMakerConfig fetchedAllData pure)
 
--- data ProduceUpdatePlans m a where
---   ProduceUpdatePlans :: LabelMakerConfig -> FetchedAllData -> ProduceUpdatePlans m LabelMakerUpdatePlan
-
 data UpdateLabels m k
   = PerformLabelUpdate LabelMakerUpdatePlan (m k)
   deriving (Functor, Generic1)
@@ -74,12 +61,3 @@ performLabelUpdate labelMakerUpdatePlan = send (PerformLabelUpdate labelMakerUpd
 
 instance HFunctor UpdateLabels
 instance Effect   UpdateLabels
-
--- data UpdateLabels m a where
---   PerformLabelUpdate :: LabelMakerUpdatePlan -> UpdateLabels m ()
-
--- makeSem ''ReadRawLabelConfig
--- makeSem ''DecodeInputData
--- makeSem ''ProduceUpdatePlans
--- makeSem ''FetchOrgRepos
--- makeSem ''UpdateLabels

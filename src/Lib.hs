@@ -3,11 +3,6 @@ module Lib
     ( runApp
     ) where
 
--- import Polysemy
--- import Polysemy.Trace
--- import Polysemy.Error
--- import Polysemy.Reader
-
 import Control.Carrier.Lift (runM)
 import Control.Carrier.Error.Either (runError)
 import Control.Carrier.Reader (runReader)
