@@ -5,6 +5,7 @@ where
 
 import Control.Algebra (Has)
 import Control.Effect.Trace (Trace, trace)
+import Control.Monad.IO.Class
 import Effects
 -- import Types.App
 import Types.Loggable
