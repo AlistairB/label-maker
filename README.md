@@ -18,6 +18,7 @@ You have series of related repositories that you want to have the same set of la
 ### Alternatives
 
 - [GitHub Label Sync](https://github.com/Financial-Times/github-label-sync) - More feature rich and mature, but less geared towards a team that wants to keep multiple orgs / repos in sync with a single config / run.
+- [Terraform does GitHub labels](https://www.terraform.io/docs/providers/github/r/issue_label.html) and other GitHub things.
 
 ## Usage
 
