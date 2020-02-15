@@ -26,6 +26,7 @@ instance Loggable () where
 
 instance Loggable AppError where
   getLogs ParseFailure = [ "Failed to parse the config" ]
+  getLogs ReadFileException = [ "Failed to read file" ]
   getLogs (GithubErrors errors) = "Github API Errors!" : concatMap getLogs (NE.toList errors)
 
 instance Loggable SpecificGithubError where
