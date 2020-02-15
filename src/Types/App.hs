@@ -8,6 +8,7 @@ import Data.List.NonEmpty
 
 data AppError =
     ParseFailure
+  | ReadFileException
   | GithubErrors (NonEmpty SpecificGithubError)
   deriving (Eq, Show)
 

@@ -26,6 +26,13 @@ packages:
   original:
     hackage: fused-effects-1.0.0.1
 - completed:
+    hackage: fused-effects-exceptions-1.0.0.0@sha256:ee32e6e6a40ce2272603b93036e05945d79f68200b1f09624db39262724b0f98,1731
+    pantry-tree:
+      size: 520
+      sha256: de5cf7211020a5cb543faed316b760c8b9be7412d716b483f2ce8e152e63d278
+  original:
+    hackage: fused-effects-exceptions-1.0.0.0
+- completed:
     hackage: optparse-applicative-0.15.1.0@sha256:a0b9924d88a17c36cd8e6839d7dd2138419dd8f08cbb4f9af18f3c367b0c69a3,4673
     pantry-tree:
       size: 2904

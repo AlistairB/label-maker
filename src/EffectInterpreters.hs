@@ -3,17 +3,20 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE UndecidableInstances #-}
 
-module EffectInterpreters (
-  ReadRawLabelConfigIOC (..),
-  DecodeInputDataC (..),
-  FetchOrgReposIOC (..),
-  ProduceUpdatePlansC (..),
-  UpdateLabelsIOC (..),
-) where
+module EffectInterpreters
+  ( ReadRawLabelConfigIOC (..),
+    DecodeInputDataC (..),
+    FetchOrgReposIOC (..),
+    ProduceUpdatePlansC (..),
+    UpdateLabelsIOC (..),
+  )
+where
 
 import Control.Algebra
 import Control.Carrier.Error.Either
 import Control.Carrier.Reader
+import Control.Effect.Exception (catch, SomeException)
+import Control.Effect.Lift
 import Control.Monad.IO.Class
 import Data.Bifunctor (first)
 import Data.Functor ((<&>))
@@ -31,14 +34,23 @@ import Types.RunInput
 newtype ReadRawLabelConfigIOC m a = ReadRawLabelConfigIOC {runReadRawLabelConfigIOC :: m a}
   deriving (Applicative, Functor, Monad, MonadIO)
 
-instance (Algebra sig m, Has (Reader RunSettings) sig m, MonadIO m) => Algebra (ReadRawLabelConfig :+: sig) (ReadRawLabelConfigIOC m) where
+instance
+  (Algebra sig m, Has (Reader RunSettings) sig m, Has (Error AppError) sig m, Has (Lift IO) sig m, MonadIO m) =>
+  Algebra (ReadRawLabelConfig :+: sig) (ReadRawLabelConfigIOC m)
+  where
   alg (L (PerformRead k)) =
     ( do
         configFile <- ask <&> _configFile
-        liftIO $ readFile (unpack configFile) <&> (RawLabelConfig . pack)
+        let ioFile = readFile (unpack configFile) <&> (RawLabelConfig . pack)
+        catch (liftIO ioFile) exceptionToFusedError
     )
       >>= k
   alg (R other) = ReadRawLabelConfigIOC (alg (handleCoercible other))
+
+exceptionToFusedError ::
+  (Has (Error AppError) sig m
+  ) => SomeException -> m a
+exceptionToFusedError _ = throwError ReadFileException
 
 newtype DecodeInputDataC m a = DecodeInputDataC {runDecodeInputDataC :: m a}
   deriving (Applicative, Functor, Monad, MonadIO) -- seems MonadIO is needed, else you can't chain this with IO interpreters
@@ -80,8 +92,11 @@ newtype UpdateLabelsIOC m a = UpdateLabelsIOC {runUpdateLabelsIOC :: m a}
   deriving (Applicative, Functor, Monad, MonadIO)
 
 instance (Algebra sig m, Has (Error AppError) sig m, Has (Reader RunSettings) sig m, MonadIO m) => Algebra (UpdateLabels :+: sig) (UpdateLabelsIOC m) where
-  alg (L (PerformLabelUpdate plan k)) = (do
-    (RunSettings _ apiHost apiToken) <- ask
-    result <- liftIO $ updateLabels apiHost apiToken plan
-    fromEither result) >> k
+  alg (L (PerformLabelUpdate plan k)) =
+    ( do
+        (RunSettings _ apiHost apiToken) <- ask
+        result <- liftIO $ updateLabels apiHost apiToken plan
+        fromEither result
+    )
+      >> k
   alg (R other) = UpdateLabelsIOC (alg (handleCoercible other))
